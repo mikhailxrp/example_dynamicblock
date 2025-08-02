@@ -20,6 +20,16 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'viewScript' => 'file:./view.js'
+		'viewScript' => 'file:./view.js',
+		'attributes' => array(
+			'postsPerPage' => array(
+				'type' => 'number',
+				'default' => 3
+			),
+			'showImage' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		)
 	)
 );

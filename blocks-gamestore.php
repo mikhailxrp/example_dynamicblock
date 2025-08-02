@@ -17,20 +17,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 };
 
-function dynamicblock_render_callback() {
-	return '<div class="gamestore"><h1>Gamestore</h1></div>';
+// функция для динамического вывода постов в блоке на фронтенде
+function dynamicblock_render_callback($attributes) {
+	$args = array(
+		'posts_per_page' => $attributes['postsPerPage'],
+		'post_status' => 'publish',
+	);
+	$latest_post = get_posts($args);
+
+	$html = "<div ".get_block_wrapper_attributes()." >";
+	if(!empty($latest_post)) {
+		foreach($latest_post as $post) {
+		  $html .="<div>";
+			if($attributes['showImage'] && has_post_thumbnail($post)) {
+				$html .= "<a href='".esc_url(get_permalink($post))."'>";
+			  $html .= wp_kses_post(get_the_post_thumbnail($post, 'large'));
+				$html .= "</a>";
+			}
+			$html .="<time datetime='".esc_attr(get_the_date('c', $post))."' >".esc_html(get_the_date('', $post))."</time>";
+		  $html .="<h2><a href='".esc_url(get_permalink($post))."'>".esc_html(get_the_title($post))."</a></h2>";
+			$html .="<p>".esc_html(get_the_excerpt($post))."</p>";
+		  $html .="</div>";
+		}
+	}
+	$html .="</div>";
+	return $html;
 }
 
-add_filter('block_categories_all', function($categories){
-	return array_merge($categories, [
-		[
-			'slug' => 'gamestore',
-			'title' => 'Gamestore'
-		]
-		]);
-});
 
-function create_block_blocks_gamestore_block_init() {
+function wdn_dynamicblock_block_init() {
 	register_block_type( __DIR__ . '/build/dynamicblock', array("render_callback" => "dynamicblock_render_callback") );
 }
-add_action( 'init', 'create_block_blocks_gamestore_block_init' );
+add_action( 'init', 'wdn_dynamicblock_block_init' );

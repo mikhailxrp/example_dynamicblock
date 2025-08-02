@@ -1,12 +1,27 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+.wp-block-wdm-dynamicblock {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
 
-.wp-block-create-block-blocks-gamestore {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+	> div {
+		width: calc(50% - 10px);
+		background: #f5f5f5;
+		border-radius: 10px;
+		padding: 20px;
+		box-sizing: border-box;
+		img {
+			width: 100%;
+			height: auto;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			font-weight: 700;
+			a {
+				text-decoration: none;
+			}
+		}
+	}
 }
